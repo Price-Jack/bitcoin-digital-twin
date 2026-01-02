@@ -23,6 +23,7 @@ A lightweight “digital twin” of Bitcoin price movement using real-time-style
 ---
 
 ## Visuals (latest run)
+
 ### BTC price (5-min)
 ![BTC price](assets/BTC_USD.png)
 
@@ -35,6 +36,8 @@ A lightweight “digital twin” of Bitcoin price movement using real-time-style
 ---
 
 ## Results summary (latest run)
+
+> Results are from a recent run and may change as data windows and randomness change. See the notebook output for the most current metrics.
 
 ### Regression (predict future return)
 - **MAE:** 0.001375  
@@ -64,6 +67,14 @@ A lightweight “digital twin” of Bitcoin price movement using real-time-style
 
 **Interpretation (quick):** The LSTM is strongly biased toward predicting “up” (high recall), which can be useful in momentum/recovery regimes, but this run did not show a statistically significant return advantage vs baseline.
 
+> Note: Reported strategy returns do not include transaction costs or slippage; adding realistic costs will reduce net performance.
+
+---
+
+## Limitations (current)
+- Short-horizon BTC direction is noisy and non-stationary; performance varies by market regime.
+- This notebook is a research prototype (not production trading infrastructure) and does not model transaction costs/slippage by default.
+
 ---
 
 ## Data Splits & Leakage Prevention (Time-Series)
@@ -91,6 +102,15 @@ To improve repeatability:
 - Use fixed dependency versions (see `requirements.txt`) and note your Python version.
 - Run the notebook end-to-end without reordering cells.
 
+---
+
+## Project structure
+
+- `notebooks/bitcoin_digital_twin.ipynb` — primary end-to-end demo (runs in Colab)
+- `src/` — reusable modules (data loading, feature engineering, models, evaluation, strategy)
+- `assets/` — plots/screenshots used in this README
+
+---
 
 ## How to run
 
@@ -102,4 +122,5 @@ Click **Open in Colab** at the top and run all cells.
 git clone https://github.com/Price-Jack/bitcoin-digital-twin.git
 cd bitcoin-digital-twin
 pip install -r requirements.txt
-jupyter notebook
+jupyter lab
+# then open: notebooks/bitcoin_digital_twin.ipynb
