@@ -66,6 +66,32 @@ A lightweight “digital twin” of Bitcoin price movement using real-time-style
 
 ---
 
+## Data Splits & Leakage Prevention (Time-Series)
+
+This is a **time-series** problem, so all evaluation uses **chronological** splits (no random shuffling). Train/validation/test are separated by time to avoid peeking into the future.
+
+Leakage prevention measures:
+- **No future data** is used when building features for a given timestep (features are computed from information available at or before that timestamp).
+- Model inputs are created as rolling windows using a lookback of **60** steps (~5 hours) to predict direction **3** steps ahead (~15 minutes).
+- Any tuning decisions (e.g., probability thresholds) should be chosen on the **validation** window and then reported on the **test** window.
+
+> Note: If you modify the split strategy (e.g., rolling/walk-forward evaluation), document the exact dates/intervals used for each split.
+
+---
+
+## Reproducibility Notes
+
+This project is intended to be reproducible, but results can vary due to:
+- market regime changes (non-stationary data),
+- stochastic training (random initialization, batching),
+- library/hardware differences.
+
+To improve repeatability:
+- Set random seeds (NumPy + TensorFlow) when training.
+- Use fixed dependency versions (see `requirements.txt`) and note your Python version.
+- Run the notebook end-to-end without reordering cells.
+
+
 ## How to run
 
 ### Option A: Run in Colab (recommended)
